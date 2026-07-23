@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kedge Health — Preventive care for people without a family doctor</title>
+<meta name="description" content="No family doctor? Kedge helps people in Newfoundland and Labrador stay on top of cancer screening, diabetes checks, and heart health. Built by a local ER physician.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16242E;
+    --deep:#0D171E;
+    --fog:#EFF2F1;
+    --card:#FFFFFF;
+    --dory:#D99A2B;
+    --dory-deep:#B57E1B;
+    --spruce:#2F6B5E;
+    --line:#D5DBD9;
+    --body:#2A3A44;
+    --muted:#5B6E78;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    font-family:'Source Sans 3',system-ui,sans-serif;
+    font-size:18px;line-height:1.65;color:var(--body);
+    background:var(--fog);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;color:var(--ink);line-height:1.12}
+  a{color:var(--spruce)}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+  .eyebrow{
+    font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--dory-deep);margin-bottom:14px;
+  }
+  :focus-visible{outline:3px solid var(--dory);outline-offset:3px;border-radius:4px}
+
+  /* ---------- Header ---------- */
+  header{
+    background:var(--ink);
+    position:sticky;top:0;z-index:50;
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .logo svg{display:block}
+  .logo span{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;
+    color:#fff;letter-spacing:.01em;
+  }
+  .logo em{font-style:normal;color:var(--dory)}
+  .nav-cta{
+    background:var(--dory);color:var(--deep);text-decoration:none;
+    font-weight:700;font-size:16px;padding:10px 20px;border-radius:8px;
+    transition:background .15s;
+  }
+  .nav-cta:hover{background:#E5AC42}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:var(--ink);color:#E9EEF0;
+    padding:72px 0 0;position:relative;overflow:hidden;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.2fr .9fr;gap:56px;align-items:start;padding-bottom:88px}
+  .hero h1{
+    color:#fff;font-size:clamp(38px,5.4vw,58px);font-weight:800;
+    letter-spacing:-.015em;margin-bottom:22px;
+  }
+  .hero h1 .accent{color:var(--dory)}
+  .hero .lede{font-size:21px;line-height:1.6;color:#C4D0D6;max-width:34em;margin-bottom:32px}
+  .hero .lede strong{color:#fff;font-weight:600}
+
+  .definition{
+    border-left:3px solid var(--dory);
+    padding:18px 22px;margin:0 0 36px;
+    background:rgba(255,255,255,.045);border-radius:0 10px 10px 0;
+    max-width:33em;
+  }
+  .definition .term{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;color:#fff;
+  }
+  .definition .pos{font-style:italic;color:#8FA3AD;font-size:16px;margin-left:6px}
+  .definition p{font-size:16.5px;color:#B7C5CC;margin-top:6px;line-height:1.55}
+
+  .signup{
+    background:var(--card);border-radius:14px;padding:30px 28px;
+    box-shadow:0 14px 40px rgba(6,14,19,.35);
+  }
+  .signup h2{font-size:24px;font-weight:700;margin-bottom:8px}
+  .signup .sub{font-size:16.5px;color:var(--muted);margin-bottom:22px}
+  .field label{display:block;font-weight:700;font-size:15px;color:var(--ink);margin-bottom:6px}
+  .field input{
+    width:100%;font:inherit;font-size:17px;padding:13px 14px;
+    border:1.5px solid var(--line);border-radius:9px;background:#FBFCFC;color:var(--ink);
+  }
+  .field input:focus{border-color:var(--spruce);outline:none;box-shadow:0 0 0 3px rgba(47,107,94,.18)}
+  .field{margin-bottom:16px}
+  .btn{
+    display:block;width:100%;font:inherit;font-weight:700;font-size:18px;
+    background:var(--dory);color:var(--deep);border:none;border-radius:9px;
+    padding:15px;cursor:pointer;transition:background .15s;
+  }
+  .btn:hover{background:#E5AC42}
+  .signup .fine{font-size:14px;color:var(--muted);margin-top:14px;line-height:1.5}
+  .success{display:none;text-align:center;padding:26px 6px}
+  .success .tick{
+    width:52px;height:52px;border-radius:50%;background:var(--spruce);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
+  }
+  .success h3{font-size:22px;margin-bottom:8px}
+  .success p{color:var(--muted);font-size:16.5px}
+
+  .hero-wave{display:block;width:100%;height:auto;margin-bottom:-1px}
+
+  /* ---------- Stat band ---------- */
+  .stat-band{background:var(--fog);padding:56px 0 8px}
+  .stat-card{
+    display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:30px 34px;
+  }
+  .stat-num{
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+    font-size:clamp(44px,6vw,64px);color:var(--ink);line-height:1;
+  }
+  .stat-card p{font-size:19px;max-width:38em}
+  .stat-card p strong{color:var(--ink)}
+
+  /* ---------- Sections ---------- */
+  section{padding:76px 0}
+  .section-head{max-width:40em;margin-bottom:44px}
+  .section-head h2{font-size:clamp(28px,3.6vw,38px);font-weight:800;letter-spacing:-.01em;margin-bottom:12px}
+  .section-head p{font-size:19px;color:var(--muted)}
+
+  /* Checks grid */
+  .checks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .check{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:24px 22px;
+  }
+  .check h3{font-size:19px;font-weight:700;margin-bottom:6px}
+  .check .who{font-size:14.5px;font-weight:700;color:var(--dory-deep);letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px}
+  .check p{font-size:16px;color:var(--body)}
+  .checks-note{font-size:16px;color:var(--muted);margin-top:22px;max-width:44em}
+
+  /* How it works — haul line */
+  .how{background:var(--ink);color:#DCE4E8}
+  .how .section-head h2{color:#fff}
+  .how .section-head p{color:#9FB2BB}
+  .steps{position:relative;max-width:640px}
+  .steps::before{
+    content:"";position:absolute;left:23px;top:14px;bottom:52px;width:2px;
+    background:repeating-linear-gradient(to bottom,var(--dory) 0 8px,transparent 8px 14px);
+    opacity:.75;
+  }
+  .step{display:grid;grid-template-columns:48px 1fr;gap:22px;margin-bottom:40px;position:relative}
+  .step-dot{
+    width:48px;height:48px;border-radius:50%;background:var(--dory);color:var(--deep);
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:21px;
+    display:flex;align-items:center;justify-content:center;z-index:1;
+  }
+  .step h3{color:#fff;font-size:21px;margin-bottom:6px;padding-top:9px}
+  .step p{font-size:17px;color:#B7C5CC;max-width:32em}
+  .step-anchor{display:grid;grid-template-columns:48px 1fr;gap:22px;align-items:center}
+  .step-anchor .dot{
+    width:48px;height:48px;border-radius:50%;background:transparent;border:2px solid var(--dory);
+    display:flex;align-items:center;justify-content:center;z-index:1;position:relative;background:var(--ink);
+  }
+  .step-anchor p{font-size:17px;color:var(--dory);font-weight:600}
+
+  /* Founder */
+  .founder-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .founder-card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:34px;
+  }
+  .founder-card blockquote{
+    font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:600;
+    color:var(--ink);line-height:1.45;margin-bottom:18px;
+  }
+  .founder-card figcaption{font-size:16px;color:var(--muted)}
+  .founder-copy p{margin-bottom:16px;font-size:18px}
+
+  /* Privacy */
+  .privacy{background:#E4E9E8}
+  .promises{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .promise{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px 22px}
+  .promise .p-icon{
+    width:40px;height:40px;border-radius:9px;background:var(--spruce);
+    display:flex;align-items:center;justify-content:center;margin-bottom:14px;
+  }
+  .promise h3{font-size:18px;margin-bottom:6px}
+  .promise p{font-size:16px}
+
+  /* FAQ */
+  .faq details{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    margin-bottom:12px;overflow:hidden;
+  }
+  .faq summary{
+    cursor:pointer;list-style:none;padding:20px 24px;
+    font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18.5px;color:var(--ink);
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+  }
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{
+    content:"+";font-size:24px;color:var(--dory-deep);font-weight:600;flex-shrink:0;
+    transition:transform .15s;
+  }
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq details p{padding:0 24px 22px;font-size:17px;max-width:46em}
+
+  /* Bottom CTA */
+  .bottom-cta{background:var(--ink);text-align:center}
+  .bottom-cta h2{color:#fff;font-size:clamp(28px,3.8vw,40px);font-weight:800;margin-bottom:14px}
+  .bottom-cta p{color:#B7C5CC;font-size:19px;max-width:36em;margin:0 auto 30px}
+  .bottom-cta a{
+    display:inline-block;background:var(--dory);color:var(--deep);text-decoration:none;
+    font-weight:700;font-size:19px;padding:16px 40px;border-radius:10px;transition:background .15s;
+  }
+  .bottom-cta a:hover{background:#E5AC42}
+
+  /* Emergency note + footer */
+  .emergency{
+    background:var(--deep);color:#9FB2BB;text-align:center;
+    padding:18px 24px;font-size:15.5px;border-top:1px solid rgba(255,255,255,.07);
+  }
+  .emergency strong{color:#E9EEF0}
+  footer{background:var(--deep);color:#7C919B;padding:34px 0 44px;font-size:15px}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .foot .logo span{font-size:18px}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .checks{grid-template-columns:1fr 1fr}
+    .promises{grid-template-columns:1fr}
+    .founder-grid{grid-template-columns:1fr}
+  }
+  @media (max-width:600px){
+    body{font-size:17px}
+    section{padding:56px 0}
+    .checks{grid-template-columns:1fr}
+    .stat-card{grid-template-columns:1fr;gap:10px;padding:26px}
+    .hero{padding-top:52px}
+    .hero-grid{padding-bottom:64px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Kedge Health home">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 3v14M12 3l-2.2 2.2M12 3l2.2 2.2M5 13c0 4.5 3.1 7 7 7s7-2.5 7-7M5 13l-2 2.4M5 13l2.6 1.4M19 13l2 2.4M19 13l-2.6 1.4" stroke="#D99A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Kedge<em>&nbsp;Health</em></span>
+    </a>
+    <a class="nav-cta" href="#waitlist">Join the waitlist</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO ================= -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Made in Newfoundland &amp; Labrador</p>
+        <h1>Waiting for a family doctor? Your health checks <span class="accent">don't have to wait.</span></h1>
+        <p class="lede">Kedge helps you stay on top of the health checks you're due for — cancer screening, diabetes, blood pressure — based on <strong>Canadian medical guidelines</strong>, while you wait to be attached to a family physician or primary health practitioner.</p>
+        <figure class="definition">
+          <span class="term">kedge</span><span class="pos">verb</span>
+          <p>To move a vessel forward by setting a small anchor ahead and hauling toward it. Steady progress, made on purpose. That's what we help you do with your health.</p>
+        </figure>
+      </div>
+
+      <div class="signup" id="waitlist">
+        <form id="waitlist-form" novalidate>
+          <h2>Be first in line</h2>
+          <p class="sub">Kedge is launching in Newfoundland and Labrador. Leave your email and we'll let you know the moment it's available in your area.</p>
+          <div class="field">
+            <label for="name">First name</label>
+            <input type="text" id="name" name="name" autocomplete="given-name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+          <button class="btn" type="submit">Join the waitlist</button>
+          <p class="error" id="waitlist-error" style="display:none;color:#b00020;font-size:13.5px;margin-top:10px">Something went wrong sending that. Please try again, or email hello@kedgehealth.com.</p>
+          <p class="fine">Free to join. No spam — just launch news. Unsubscribe any time.</p>
+          <p class="fine" style="margin-top:8px">By joining, you agree we can email you about Kedge's launch. This is a marketing list only — it is kept separate from any clinical system and holds no health information.</p>
+        </form>
+        <div class="success" id="waitlist-success">
+          <div class="tick">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4.5 12.5l5 5 10-11" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>You're on the list.</h3>
+          <p>We'll email you as soon as Kedge is available in your area. Nothing else to do for now.</p>
+        </div>
+      </div>
+    </div>
+    <svg class="hero-wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,40 C240,70 480,10 720,35 C960,60 1200,20 1440,45 L1440,70 L0,70 Z" fill="#EFF2F1"/>
+    </svg>
+  </div>
+
+  <!-- ================= STAT ================= -->
+  <div class="stat-band">
+    <div class="wrap">
+      <div class="stat-card">
+        <div class="stat-num">150,000+</div>
+        <p>people in Newfoundland and Labrador are waiting to be attached to a family doctor or primary care provider. While they wait, the routine checks that catch cancer, diabetes, and heart disease early can slip through the cracks. <strong>Kedge was built to bridge that gap.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= WHAT WE CHECK ================= -->
+  <section id="checks">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">What Kedge keeps track of</p>
+        <h2>The checks that catch problems before they become emergencies</h2>
+        <p>These are the screening tests Canadian guidelines recommend. Kedge keeps track of which ones you're due for, so nothing slips through while you wait for a primary care provider.</p>
+      </div>
+      <div class="checks">
+        <div class="check">
+          <p class="who">Ages 50–74</p>
+          <h3>Colon cancer check</h3>
+          <p>A simple take-home test every two years. Colon cancer caught early is very treatable — caught late, it's a different story.</p>
+        </div>
+        <div class="check">
+          <p class="who">Women 40+</p>
+          <h3>Breast cancer check</h3>
+          <p>A mammogram every two years. In NL you can already self-refer — most people just don't know that.</p>
+        </div>
+        <div class="check">
+          <p class="who">Women &amp; people with a cervix</p>
+          <h3>Cervical cancer check</h3>
+          <p>A Pap test every three years. One of the most effective cancer screens in medicine.</p>
+        </div>
+        <div class="check">
+          <p class="who">Most adults 40+</p>
+          <h3>Diabetes check</h3>
+          <p>A blood test every few years. Millions of Canadians have diabetes or prediabetes and don't know it yet.</p>
+        </div>
+        <div class="check">
+          <p class="who">All adults</p>
+          <h3>Blood pressure &amp; heart health</h3>
+          <p>Blood pressure, cholesterol, and heart risk. High blood pressure has no symptoms until it does.</p>
+        </div>
+        <div class="check">
+          <p class="who">Long-time smokers 55–74</p>
+          <h3>Lung cancer check</h3>
+          <p>A low-dose CT scan for people who smoked for many years. It finds lung cancer while it's still small.</p>
+        </div>
+      </div>
+      <p class="checks-note">Which checks apply to you depends on your age, sex, and health history. That's exactly what Kedge figures out — so you're never guessing, and never getting tests you don't need.</p>
+    </div>
+  </section>
+
+  <!-- ================= HOW IT WORKS ================= -->
+  <section class="how">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow" style="color:var(--dory)">How it works</p>
+        <h2>Three simple steps</h2>
+        <p>It starts on your phone. From there, Kedge keeps your preventive care on track while you wait for attachment.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-dot">1</div>
+          <div>
+            <h3>Answer a few questions</h3>
+            <p>Your age, your history, a few minutes on your phone. No medical jargon, no trick questions.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-dot">2</div>
+          <div>
+            <h3>Get your personal checklist</h3>
+            <p>Kedge checks your answers against Canadian medical guidelines and shows you exactly which tests you're due for — and which ones you can skip.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-dot">3</div>
+          <div>
+            <h3>Get them done</h3>
+            <p>We guide you to the right next step in your area — and when the time comes, your screening history is ready to share with your family physician or nurse practitioner.</p>
+          </div>
+        </div>
+        <div class="step-anchor">
+          <div class="dot">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3v14M12 3l-2.2 2.2M12 3l2.2 2.2M5 13c0 4.5 3.1 7 7 7s7-2.5 7-7M5 13l-2 2.4M5 13l2.6 1.4M19 13l2 2.4M19 13l-2.6 1.4" stroke="#D99A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p>Steady forward. That's the whole idea.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RURAL ACCESS ================= -->
+  <section id="distance">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Wherever you live</p>
+        <h2>Bringing care to the people — not the people to the care</h2>
+        <p>In much of Newfoundland and Labrador, a routine check can mean hours of driving, a ferry, or a flight. Kedge is built for that reality, not just for people who live down the street from a clinic.</p>
+      </div>
+      <div class="checks">
+        <div class="check">
+          <h3>Starts on your phone</h3>
+          <p>No appointment and no drive to find out where you stand. Your personal screening checklist comes to you, from your kitchen table, anywhere in the province.</p>
+        </div>
+        <div class="check">
+          <h3>Some tests come to you</h3>
+          <p>Checks like the take-home colon cancer test can be done at home and mailed in — no travel at all. We make sure you know which ones those are.</p>
+        </div>
+        <div class="check">
+          <h3>Care closer to home</h3>
+          <p>We're working to bring screening closer to where people actually live — including exploring clinics that travel to communities, rather than the other way around.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOUNDER ================= -->
+  <section id="about">
+    <div class="wrap founder-grid">
+      <div class="founder-copy">
+        <p class="eyebrow">Who's behind Kedge</p>
+        <h2 style="font-size:clamp(26px,3.4vw,36px);font-weight:800;margin-bottom:16px">Built by a Newfoundland and Labrador physician</h2>
+        <p>Kedge was founded by a physician working in Newfoundland and Labrador who sees every day how hard the wait for a family doctor is on patients — and how much preventive care matters in the meantime.</p>
+        <p>Kedge works alongside family physicians, nurse practitioners, and the provincial health system. It does one job well: keeping your age-appropriate screening on track while you wait to be attached, and handing you off with everything up to date.</p>
+      </div>
+      <figure class="founder-card">
+        <blockquote>"Screening works. The guidelines work. People just need support to stay on track while they wait for a family doctor. Kedge is that support — a bridge, not a replacement."</blockquote>
+        <figcaption>— Founder, Kedge Health · Physician, Newfoundland &amp; Labrador</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ================= PRIVACY ================= -->
+  <section class="privacy">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Your information</p>
+        <h2>Your health information is yours. Full stop.</h2>
+      </div>
+      <div class="promises">
+        <div class="promise">
+          <div class="p-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Stays in Canada</h3>
+          <p>Your information is stored on Canadian servers and protected under Newfoundland and Labrador's health privacy law.</p>
+        </div>
+        <div class="promise">
+          <div class="p-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2" stroke="#fff" stroke-width="1.8"/><path d="M8 10V7a4 4 0 018 0v3" stroke="#fff" stroke-width="1.8"/></svg>
+          </div>
+          <h3>Encrypted and protected</h3>
+          <p>Your information is encrypted and safeguarded to health-system standards — the same bar hospitals are held to.</p>
+        </div>
+        <div class="promise">
+          <div class="p-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="1.8"/><path d="M12 7v5l3.5 2" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Every access is logged</h3>
+          <p>Every time your record is touched, it leaves a permanent trace. Nothing happens to your information quietly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Common questions</p>
+        <h2>Fair questions, straight answers</h2>
+      </div>
+      <details>
+        <summary>Is Kedge a replacement for a family doctor?</summary>
+        <p>No, and it's not meant to be. A family physician or nurse practitioner provides full-scope care that no app can. Kedge supports you with one important piece — age-appropriate screening — while you wait to be attached. When you are, your screening history is ready to share with your new provider.</p>
+      </details>
+      <details>
+        <summary>What does it cost?</summary>
+        <p>The plan is for Kedge to be free for patients — funded through the provincial health system rather than out of your pocket. Cost should never be the reason someone skips a cancer screen. We'll confirm the details when we launch in your area.</p>
+      </details>
+      <details>
+        <summary>I already have a family doctor. Is Kedge for me?</summary>
+        <p>Kedge is built first for people without one. If you have a family doctor, keep seeing them — they're your best resource for preventive care.</p>
+      </details>
+      <details>
+        <summary>Who decides which tests I need?</summary>
+        <p>Canadian medical guidelines do — the same ones your family doctor would use, from bodies like the Canadian Task Force on Preventive Health Care and Diabetes Canada. Kedge applies them to your situation; it doesn't invent its own advice.</p>
+      </details>
+      <details>
+        <summary>Is Kedge available right now?</summary>
+        <p>We're launching in Newfoundland and Labrador in stages, working alongside the provincial health system. Join the waitlist and we'll email you as soon as it's available where you live.</p>
+      </details>
+      <details>
+        <summary>What if a test finds something?</summary>
+        <p>Finding something early is the whole point — early almost always means more treatable. If a screening result needs follow-up, Kedge helps make sure that follow-up actually happens, rather than leaving you with a result and no next step.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= BOTTOM CTA ================= -->
+  <section class="bottom-cta">
+    <div class="wrap">
+      <h2>Your health checks don't have to wait for attachment.</h2>
+      <p>Join the waitlist today. It takes thirty seconds, it's free, and it keeps your preventive care moving while you wait for a family doctor.</p>
+      <a href="#waitlist">Join the waitlist</a>
+    </div>
+  </section>
+
+  <div class="emergency">
+    <div class="wrap">
+      <strong>Feeling unwell right now?</strong> Kedge is for routine prevention, not urgent care. Call <strong>811</strong> to speak with a nurse, or <strong>911</strong> / your nearest emergency department in an emergency.
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="logo" href="#top" aria-label="Kedge Health home">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 3v14M12 3l-2.2 2.2M12 3l2.2 2.2M5 13c0 4.5 3.1 7 7 7s7-2.5 7-7M5 13l-2 2.4M5 13l2.6 1.4M19 13l2 2.4M19 13l-2.6 1.4" stroke="#D99A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span style="color:#B7C5CC">Kedge<em>&nbsp;Health</em></span>
+    </a>
+    <p>© 2026 Kedge Health · St. John's, Newfoundland &amp; Labrador · Kedge provides information and navigation support, not medical diagnosis.</p>
+  </div>
+</footer>
+
+<script>
+  // ─── Waitlist backend endpoint ──────────────────────────────────────────────
+  // The one thing to set before launch. Paste your deployed Google Apps Script
+  // web-app URL here (see WEBSITE_GO_LIVE.md, "Waitlist backend"). Formspree is a
+  // documented alternative — same idea, just a different URL.
+  // While this is left blank the form still works and shows success, but nothing
+  // is stored — so set it before you announce the site.
+  var WAITLIST_ENDPOINT = "";  // e.g. "https://script.google.com/macros/s/AKfyc.../exec"
+
+  document.getElementById('waitlist-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var form    = this;
+    var name    = document.getElementById('name');
+    var email   = document.getElementById('email');
+    var errorEl = document.getElementById('waitlist-error');
+    var btn     = form.querySelector('button[type=submit]');
+    errorEl.style.display = 'none';
+
+    if(!name.value.trim() || !email.value.trim() || !email.checkValidity()){
+      email.reportValidity();
+      name.reportValidity();
+      return;
+    }
+
+    function showSuccess(){
+      form.style.display = 'none';
+      document.getElementById('waitlist-success').style.display = 'block';
+    }
+
+    // No endpoint configured yet → optimistic success (nothing stored). Set
+    // WAITLIST_ENDPOINT before launch so signups are actually captured.
+    if(!WAITLIST_ENDPOINT){ showSuccess(); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Joining…';
+    var payload = new URLSearchParams({
+      name:  name.value.trim(),
+      email: email.value.trim(),
+      source: 'kedgehealth.com',
+      ts: new Date().toISOString()
+    });
+
+    fetch(WAITLIST_ENDPOINT, {
+      method: 'POST',
+      // Apps Script web apps accept a simple (no-preflight) form POST.
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: payload.toString()
+    })
+    .then(function(res){ if(!res.ok){ throw new Error('bad status ' + res.status); } return res; })
+    .then(function(){ showSuccess(); })
+    .catch(function(){
+      // Graceful failure: never lose the person to a silent error.
+      btn.disabled = false;
+      btn.textContent = 'Join the waitlist';
+      errorEl.style.display = 'block';
+    });
+  });
+</script>
+
+</body>
+</html>
