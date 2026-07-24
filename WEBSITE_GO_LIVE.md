@@ -163,6 +163,40 @@ accepts as-is.
 
 ---
 
+## Part 5 — Point the other domains at kedgehealth.com
+
+You also own **kedgehealth.ca** and **kedge.health**. Redirect both to the .com so
+every version of the name lands on the one real site (the `.ca` matters — many
+Canadians type it by instinct), and so nobody else can pick the names up. Worth
+doing; takes ~2 minutes each.
+
+**Do NOT add these to GitHub Pages.** Pages supports only one custom domain per site
+(that's the `CNAME` file, pinned to kedgehealth.com). The extras redirect at the
+**registrar** instead — their DNS should not point at GitHub.
+
+For each of `kedgehealth.ca` and `kedge.health`, at the registrar where it's
+registered:
+
+1. Open that domain's settings → **Domain forwarding** (a.k.a. **URL redirect** /
+   **Web forwarding**), usually under DNS / Forwarding / Manage.
+2. Set:
+   - **Forward to:** `https://kedgehealth.com`
+   - **Type:** **Permanent (301)** — not temporary/302. A 301 consolidates search
+     ranking onto the .com instead of splitting it across duplicate names.
+   - **Path forwarding / wildcard:** ON if offered, so `/anything` carries over.
+   - **Forward only** (no masking/cloaking) so the address bar actually shows
+     kedgehealth.com.
+3. Save. Effective in minutes, occasionally a couple of hours.
+4. Test: type `kedgehealth.ca` → should land on kedgehealth.com with .com in the bar.
+
+**HTTPS caveat:** after it's live, type `https://kedge.health` (with the https). If
+it throws a certificate warning, your registrar's forwarding doesn't cover HTTPS on
+the source domain (common, low-stakes — people rarely type `https://` by hand). For
+a flawless redirect, put that domain on **Cloudflare's free tier** and use a redirect
+rule, which handles HTTPS properly. Only worth it if the warning actually appears.
+
+---
+
 ## Privacy posture (already built into the page)
 
 - The form shows a one-line consent note: joining means you may email them about the
