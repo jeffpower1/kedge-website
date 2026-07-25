@@ -2,12 +2,18 @@
 // Kedge waitlist backend — Google Apps Script (hardened)
 // ============================================================================
 // Paste this over the ENTIRE contents of your Apps Script project, then follow
-// WAITLIST_EMAIL_FIX.md. The key differences from the first version:
-//   1. If sending the notification email fails, the error is written into a new
-//      column E of the sheet ("email_status") instead of vanishing — so you can
-//      SEE why no email arrived, per signup.
-//   2. sendTestEmail() lets you force Google's authorization prompt and confirm
-//      email delivery in one click, without waiting for a real signup.
+// WAITLIST_EMAIL_FIX.md. What this version does:
+//   1. If sending the notification email fails, the error is written into the
+//      email_status column instead of vanishing — so you can SEE why per signup.
+//   2. sendTestEmail() forces Google's authorization prompt and confirms delivery.
+//   3. Captures the newsletter opt-in as a SEPARATE CASL consent, with its own
+//      timestamp, in its own column.
+//
+// SHEET HEADER ROW — set row 1 to exactly these 7 columns (left to right):
+//   timestamp | name | email | source | newsletter | newsletter_consent_ts | email_status
+// (An earlier version wrote email_status in column E; after this update it moves
+//  to column G and E/F become the newsletter fields. A few early TEST rows may be
+//  misaligned — safe to clear them, since the list is pre-launch.)
 //
 // Deliver notifications to whichever inbox you want:
 const NOTIFY_EMAIL = "jeff@kedgehealth.com";   // where the alert is delivered (the "To")
@@ -24,6 +30,14 @@ function doPost(e) {
     var email  = (p.email  || "").toString().slice(0, 200);
     var source = (p.source || "").toString().slice(0, 200);
     var ts     = (p.ts     || new Date().toISOString());
+
+    // Newsletter is a SEPARATE CASL consent from the waitlist. It is only "yes"
+    // when the user actively ticked the (unticked-by-default) newsletter box, and
+    // we stamp the moment they gave it, so the two consents are independently
+    // auditable. Waitlist consent = they submitted the form; newsletter consent =
+    // newsletter === "yes" with its own timestamp.
+    var newsletter   = (String(p.newsletter || "no").toLowerCase() === "yes") ? "yes" : "no";
+    var newsletterTs = (newsletter === "yes") ? ts : "";
 
     if (!email) { return _out({ ok: false, error: "no email" }); }
 
@@ -50,10 +64,12 @@ function doPost(e) {
       mailStatus = "MAIL FAILED: " + mErr;
     }
 
+    // Column order (set the header row in the Sheet to match — see legend below):
+    // A timestamp | B name | C email | D source | E newsletter | F newsletter_consent_ts | G email_status
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
-    sheet.appendRow([ts, name, email, source, mailStatus]);   // column E = email_status
+    sheet.appendRow([ts, name, email, source, newsletter, newsletterTs, mailStatus]);
 
-    return _out({ ok: true, mail: mailStatus });
+    return _out({ ok: true, mail: mailStatus, newsletter: newsletter });
   } catch (err) {
     return _out({ ok: false, error: String(err) });
   }

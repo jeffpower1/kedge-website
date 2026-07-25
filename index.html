@@ -294,6 +294,12 @@
             <label for="email">Email address</label>
             <input type="email" id="email" name="email" autocomplete="email" required>
           </div>
+          <div class="field" style="margin-bottom:18px">
+            <label for="newsletter" style="display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:15px;color:var(--body);cursor:pointer">
+              <input type="checkbox" id="newsletter" name="newsletter" value="yes" style="margin-top:3px;width:18px;height:18px;flex-shrink:0;accent-color:#2F6B5E">
+              <span>Also send me Kedge's short weekly guide to health screening — plain answers, no pressure, unsubscribe anytime.</span>
+            </label>
+          </div>
           <button class="btn" type="submit">Join the waitlist</button>
           <p class="error" id="waitlist-error" style="display:none;color:#b00020;font-size:13.5px;margin-top:10px">Something went wrong sending that. Please try again, or email hello@kedgehealth.com.</p>
           <p class="fine">Free to join. No spam — just launch news. Unsubscribe any time.</p>
@@ -588,6 +594,7 @@
       name:  name.value.trim(),
       email: email.value.trim(),
       source: 'kedgehealth.com',
+      newsletter: document.getElementById('newsletter').checked ? 'yes' : 'no',
       ts: new Date().toISOString()
     });
 
