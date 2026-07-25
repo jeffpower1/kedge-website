@@ -10,7 +10,12 @@
 //      email delivery in one click, without waiting for a real signup.
 //
 // Deliver notifications to whichever inbox you want:
-const NOTIFY_EMAIL = "jeff@kedgehealth.com";   // change if you prefer jeff.power1@gmail.com
+const NOTIFY_EMAIL = "jeff@kedgehealth.com";   // where the alert is delivered (the "To")
+// Send the alert FROM this address (the "From"). It MUST be a verified
+// "Send mail as" alias on the account that runs this script (jeff@). If it
+// isn't verified yet, the script falls back to the default sender and says so
+// in column E, so nothing breaks. See WAITLIST_EMAIL_FIX / step below.
+const SEND_FROM    = "hello@kedgehealth.com";
 
 function doPost(e) {
   try {
@@ -26,11 +31,17 @@ function doPost(e) {
     var mailStatus = "sent";
     try {
       if (NOTIFY_EMAIL) {
-        MailApp.sendEmail(
-          NOTIFY_EMAIL,
-          "New Kedge waitlist signup",
-          "Name: " + name + "\nEmail: " + email + "\nSource: " + source + "\nTime: " + ts
-        );
+        var body = "Name: " + name + "\nEmail: " + email + "\nSource: " + source + "\nTime: " + ts;
+        // Use hello@ as the From if it's a verified send-as alias; else fall back.
+        var aliases = GmailApp.getAliases();
+        if (aliases.indexOf(SEND_FROM) !== -1) {
+          GmailApp.sendEmail(NOTIFY_EMAIL, "New Kedge waitlist signup", body,
+            { from: SEND_FROM, name: "Kedge Health" });
+        } else {
+          GmailApp.sendEmail(NOTIFY_EMAIL, "New Kedge waitlist signup", body,
+            { name: "Kedge Health" });
+          mailStatus = "sent (from default — " + SEND_FROM + " not a verified alias yet)";
+        }
       } else {
         mailStatus = "no NOTIFY_EMAIL set";
       }
@@ -65,10 +76,16 @@ function _out(obj) {
 // Version: New version → Deploy. The live /exec URL does not change.
 // ---------------------------------------------------------------------------
 function sendTestEmail() {
-  MailApp.sendEmail(
-    NOTIFY_EMAIL,
-    "Kedge test email — MailApp is working",
-    "If you can read this in your inbox, the send-email permission is granted " +
-    "and waitlist notifications will now arrive. You can delete this."
-  );
+  var body = "If you can read this in your inbox, the send-email permission is " +
+    "granted and waitlist notifications will now arrive. You can delete this.";
+  var aliases = GmailApp.getAliases();
+  Logger.log("Verified send-as aliases on this account: " + JSON.stringify(aliases));
+  if (aliases.indexOf(SEND_FROM) !== -1) {
+    GmailApp.sendEmail(NOTIFY_EMAIL, "Kedge test — from " + SEND_FROM, body,
+      { from: SEND_FROM, name: "Kedge Health" });
+  } else {
+    GmailApp.sendEmail(NOTIFY_EMAIL,
+      "Kedge test — " + SEND_FROM + " NOT yet a verified alias", body,
+      { name: "Kedge Health" });
+  }
 }
