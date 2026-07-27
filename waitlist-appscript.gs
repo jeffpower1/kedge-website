@@ -23,6 +23,39 @@ const NOTIFY_EMAIL = "jeff@kedgehealth.com";   // where the alert is delivered (
 // in column E, so nothing breaks. See WAITLIST_EMAIL_FIX / step below.
 const SEND_FROM    = "hello@kedgehealth.com";
 
+// ── Brevo push (newsletter drip) ────────────────────────────────────────────
+// When someone opts into the newsletter, add them to a Brevo list so the welcome
+// + weekly automation starts on its own. Fill these two from your Brevo account:
+//   BREVO_API_KEY: Brevo → Settings → SMTP & API → API Keys → create a v3 key.
+//   BREVO_LIST_ID: Brevo → Contacts → Lists → the "Steady — newsletter" list id (a number).
+// Leave BREVO_API_KEY blank to disable the push (rows still save; you can import later).
+const BREVO_API_KEY = "";       // paste your Brevo v3 API key
+const BREVO_LIST_ID = 0;        // paste your Steady list id (number)
+
+function addNewsletterContactToBrevo(email, name) {
+  if (!BREVO_API_KEY || !BREVO_LIST_ID) return "brevo skipped (not configured)";
+  try {
+    var res = UrlFetchApp.fetch("https://api.brevo.com/v3/contacts", {
+      method: "post",
+      contentType: "application/json",
+      headers: { "api-key": BREVO_API_KEY, "accept": "application/json" },
+      muteHttpExceptions: true,
+      payload: JSON.stringify({
+        email: email,
+        attributes: { FIRSTNAME: name },
+        listIds: [BREVO_LIST_ID],
+        updateEnabled: true   // idempotent: re-adding an existing contact is fine
+      })
+    });
+    var code = res.getResponseCode();
+    // 201 created, 204 updated — both success. Brevo uses double opt-in on the list.
+    return (code === 201 || code === 204) ? "brevo ok (" + code + ")"
+                                          : "brevo error " + code + ": " + res.getContentText().slice(0, 120);
+  } catch (bErr) {
+    return "brevo failed: " + bErr;
+  }
+}
+
 function doPost(e) {
   try {
     var p = (e && e.parameter) ? e.parameter : {};
@@ -66,6 +99,12 @@ function doPost(e) {
 
     // Column order (set the header row in the Sheet to match — see legend below):
     // A timestamp | B name | C email | D source | E newsletter | F newsletter_consent_ts | G email_status
+    // Newsletter opt-in → push to Brevo so the drip starts. Best-effort; the row
+    // still saves either way. Status folded into email_status so failures are visible.
+    if (newsletter === "yes") {
+      mailStatus = mailStatus + " | " + addNewsletterContactToBrevo(email, name);
+    }
+
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
     sheet.appendRow([ts, name, email, source, newsletter, newsletterTs, mailStatus]);
 
