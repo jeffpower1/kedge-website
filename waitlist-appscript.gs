@@ -29,8 +29,8 @@ const SEND_FROM    = "hello@kedgehealth.com";
 //   BREVO_API_KEY: Brevo → Settings → SMTP & API → API Keys → create a v3 key.
 //   BREVO_LIST_ID: Brevo → Contacts → Lists → the "Steady — newsletter" list id (a number).
 // Leave BREVO_API_KEY blank to disable the push (rows still save; you can import later).
-const BREVO_API_KEY = "";       // paste your Brevo v3 API key
-const BREVO_LIST_ID = 0;        // paste your Steady list id (number)
+const BREVO_API_KEY = "";       // paste your Brevo v3 API key (the only piece left)
+const BREVO_LIST_ID = 5;        // "Steady - newsletter" list (created 2026-07-27)
 
 function addNewsletterContactToBrevo(email, name) {
   if (!BREVO_API_KEY || !BREVO_LIST_ID) return "brevo skipped (not configured)";
