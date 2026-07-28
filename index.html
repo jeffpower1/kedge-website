@@ -600,11 +600,16 @@
 
     fetch(WAITLIST_ENDPOINT, {
       method: 'POST',
-      // Apps Script web apps accept a simple (no-preflight) form POST.
+      // Apps Script accepts a simple (no-preflight) form POST, then 302-redirects
+      // to a cross-origin googleusercontent URL whose body a browser cannot read.
+      // With a normal fetch that unreadable response REJECTS the promise, so the
+      // page showed a false "error" even though doPost ran and the row saved.
+      // no-cors sends the same POST but returns an opaque response: a resolved
+      // fetch means the request was delivered, which we treat as success.
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: payload.toString()
     })
-    .then(function(res){ if(!res.ok){ throw new Error('bad status ' + res.status); } return res; })
     .then(function(){ showSuccess(); })
     .catch(function(){
       // Graceful failure: never lose the person to a silent error.
