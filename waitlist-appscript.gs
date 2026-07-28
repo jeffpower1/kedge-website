@@ -25,14 +25,29 @@ const SEND_FROM    = "hello@kedgehealth.com";
 
 // ── Brevo push (newsletter drip) ────────────────────────────────────────────
 // When someone opts into the newsletter, add them to a Brevo list so the welcome
-// + weekly automation starts on its own. Fill these two from your Brevo account:
-//   BREVO_API_KEY: Brevo → Settings → SMTP & API → API Keys → create a v3 key.
-//   BREVO_LIST_ID: Brevo → Contacts → Lists → the "Steady — newsletter" list id (a number).
-// Leave BREVO_API_KEY blank to disable the push (rows still save; you can import later).
-const BREVO_API_KEY = "";       // paste your Brevo v3 API key (the only piece left)
+// + weekly automation starts on its own.
+//
+// SECURITY — the API key is NOT stored in this file (it must never be committed to
+// git, and this file lives in the repo). It lives in Script Properties instead:
+//   Apps Script editor → Project Settings (⚙ gear, left sidebar) → Script Properties
+//   → Add script property → name: BREVO_API_KEY → value: <your Brevo v3 key> → Save.
+// Read it at runtime below. Leave it unset to disable the push (rows still save).
 const BREVO_LIST_ID = 5;        // "Steady - newsletter" list (created 2026-07-27)
 
+function getBrevoApiKey() {
+  return PropertiesService.getScriptProperties().getProperty("BREVO_API_KEY") || "";
+}
+
+// Run once from the editor to confirm the key is set — WITHOUT printing it in full.
+function checkBrevoConfigured() {
+  var k = getBrevoApiKey();
+  Logger.log(k
+    ? "BREVO_API_KEY is set (" + k.length + " chars, ends …" + k.slice(-4) + ")."
+    : "BREVO_API_KEY is NOT set — add it in Project Settings → Script Properties.");
+}
+
 function addNewsletterContactToBrevo(email, name) {
+  var BREVO_API_KEY = getBrevoApiKey();
   if (!BREVO_API_KEY || !BREVO_LIST_ID) return "brevo skipped (not configured)";
   try {
     var res = UrlFetchApp.fetch("https://api.brevo.com/v3/contacts", {
