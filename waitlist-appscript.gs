@@ -16,7 +16,10 @@
 //  misaligned — safe to clear them, since the list is pre-launch.)
 //
 // Deliver notifications to whichever inbox you want:
-const NOTIFY_EMAIL = "jeff@kedgehealth.com";   // where the alert is delivered (the "To")
+// Alerts go to BOTH your Gmail (which you actively watch) and the kedgehealth
+// inbox. Comma-separated recipients are valid. Drop jeff@kedgehealth.com once you
+// confirm that mailbox reliably delivers to you.
+const NOTIFY_EMAIL = "jeff.power1@gmail.com, jeff@kedgehealth.com";   // the "To"
 // Send the alert FROM this address (the "From"). It MUST be a verified
 // "Send mail as" alias on the account that runs this script (jeff@). If it
 // isn't verified yet, the script falls back to the default sender and says so
