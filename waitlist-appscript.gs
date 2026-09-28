@@ -8,6 +8,8 @@
 //   2. sendTestEmail() forces Google's authorization prompt and confirms delivery.
 //   3. Captures the newsletter opt-in as a SEPARATE CASL consent, with its own
 //      timestamp, in its own column.
+//   4. (25 Sep 2026) Accepts kind=survey from survey.html and writes those rows to
+//      a "Survey" tab, leaving the waitlist tab and its columns unchanged.
 //
 // SHEET HEADER ROW — set row 1 to exactly these 7 columns (left to right):
 //   timestamp | name | email | source | newsletter | newsletter_consent_ts | email_status
@@ -74,9 +76,73 @@ function addNewsletterContactToBrevo(email, name) {
   }
 }
 
+// ── Survey (survey.html, catch-up funnel) ───────────────────────────────────
+// Rows with kind=survey go to a "Survey" tab (created on first use). Header row
+// is written automatically. No health information is asked on the survey page.
+var SURVEY_FIELDS = ["name","email","doctor_status","how_long","went_first","story",
+  "put_off","how_figure","searched","would_use","trust","who_run","pay","pay_amount","age_band",
+  "community","work","gender","contact_ok","phone","anything","source"];
+
+function handleSurvey(p) {
+  var ts = (p.ts || new Date().toISOString());
+  var email = (p.email || "").toString().slice(0, 200);
+  if (!email) { return _out({ ok: false, error: "no email" }); }
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("Survey");
+  if (!sheet) {
+    sheet = ss.insertSheet("Survey");
+    sheet.appendRow(["timestamp"].concat(SURVEY_FIELDS));
+    sheet.setFrozenRows(1);
+  }
+  var row = [ts];
+  for (var i = 0; i < SURVEY_FIELDS.length; i++) {
+    row.push((p[SURVEY_FIELDS[i]] || "").toString().slice(0, 1500));
+  }
+  sheet.appendRow(row);
+  var mailStatus = "sent";
+  try {
+    if (NOTIFY_EMAIL) {
+      var body = "Email: " + email + "\nName: " + (p.name || "") + "\nStatus: " + (p.doctor_status || "") +
+        "\nWould use: " + (p.would_use || "") + "\nContact OK: " + (p.contact_ok || "") +
+        (p.phone ? "\nPhone: " + p.phone : "") + "\nTime: " + ts + "\n\nFull answers are on the Survey tab.";
+      var aliases = GmailApp.getAliases();
+      var opts = (aliases.indexOf(SEND_FROM) !== -1) ? { from: SEND_FROM, name: "Kedge Health" } : { name: "Kedge Health" };
+      GmailApp.sendEmail(NOTIFY_EMAIL, "Kedge survey response" + (p.contact_ok && p.contact_ok !== "no" ? " (wants a call)" : ""), body, opts);
+    }
+  } catch (mErr) { mailStatus = "MAIL FAILED: " + mErr; }
+  return _out({ ok: true, mail: mailStatus });
+}
+
+// ── Thank-you email to the registrant (25 Sep 2026) ─────────────────────────
+// One email at sign-up, then nothing until there is news. Sent from hello@ when
+// that alias is verified, otherwise from the account default. Failure is recorded
+// in email_status; the row still saves.
+function sendThankYou(email, name) {
+  var first = (name || "").trim().split(/\s+/)[0];
+  var subject = "You're on the list";
+  var body =
+    (first ? "Hi " + first + ",\n\n" : "Hi,\n\n") +
+    "Thanks for registering with Kedge Health.\n\n" +
+    "Here's what happens next. We're opening across Newfoundland and Labrador in stages, " +
+    "and the first appointments go to people on this list. We'll email you when you can book, and not before. " +
+    "If you told us we could call, the physician behind Kedge will be in touch in the next few weeks.\n\n" +
+    "Nothing else to do for now.\n\n" +
+    "One thing to say plainly: Kedge is for the routine check-ups that get put off when there's no one to order them. " +
+    "If you're unwell today, call 811, or 911 in an emergency.\n\n" +
+    "Kedge Health Limited\n" +
+    "PO Box 29101 Torbay Rd RPO, St. John's, NL A1A 5B5\n" +
+    "hello@kedgehealth.com\n\n" +
+    "To come off the list, reply to this email with the word unsubscribe.";
+  var aliases = GmailApp.getAliases();
+  var opts = { name: "Kedge Health", replyTo: "hello@kedgehealth.com" };
+  if (aliases.indexOf(SEND_FROM) !== -1) { opts.from = SEND_FROM; }
+  GmailApp.sendEmail(email, subject, body, opts);
+}
+
 function doPost(e) {
   try {
     var p = (e && e.parameter) ? e.parameter : {};
+    if (String(p.kind || "") === "survey") { return handleSurvey(p); }
     var name   = (p.name   || "").toString().slice(0, 200);
     var email  = (p.email  || "").toString().slice(0, 200);
     var source = (p.source || "").toString().slice(0, 200);
@@ -122,6 +188,10 @@ function doPost(e) {
     if (newsletter === "yes") {
       mailStatus = mailStatus + " | " + addNewsletterContactToBrevo(email, name);
     }
+
+    // Thank-you to the registrant. Best-effort; outcome folded into email_status.
+    try { sendThankYou(email, name); mailStatus = mailStatus + " | thank-you sent"; }
+    catch (tErr) { mailStatus = mailStatus + " | THANK-YOU FAILED: " + tErr; }
 
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
     sheet.appendRow([ts, name, email, source, newsletter, newsletterTs, mailStatus]);

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No family doctor? Get caught up on your check-ups. Kedge Health, Newfoundland and Labrador</title>
+<meta name="description" content="Waiting on Patient Connect? Find out which health checks you're due for (mammogram, FIT kit, pap test, bloodwork, blood pressure) and get them ordered by a doctor or nurse practitioner. Newfoundland and Labrador.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#16242E;--deep:#0D171E;--fog:#EFF2F1;--card:#fff;--dory:#D99A2B;--dory-deep:#B57E1B;--spruce:#2F6B5E;--line:#D5DBD9;--body:#2A3A44;--muted:#5B6E78}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Source Sans 3',system-ui,sans-serif;font-size:18px;line-height:1.6;color:var(--body);background:var(--fog);-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;color:var(--ink);line-height:1.12}
+  a{color:var(--spruce)}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+  :focus-visible{outline:3px solid var(--dory);outline-offset:3px;border-radius:4px}
+  header{background:var(--ink);border-bottom:1px solid rgba(255,255,255,.08)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .logo span{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;color:#fff}
+  .logo em{font-style:normal;color:var(--dory)}
+  .nav-note{color:#B7C5CC;font-size:15px}
+  .hero{background:var(--ink);color:#DCE4E8;padding:44px 0 70px}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .95fr;gap:44px;align-items:start}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dory);margin-bottom:14px}
+  .hero h1{color:#fff;font-size:clamp(34px,4.6vw,54px);font-weight:800;margin-bottom:18px}
+  .hero h1 .accent{color:var(--dory)}
+  .lede{font-size:20px;color:#C9D4DA;margin-bottom:22px;max-width:36em}
+  .points{list-style:none;display:grid;gap:12px;margin-top:8px}
+  .points li{display:flex;gap:12px;align-items:flex-start;color:#DCE4E8;font-size:17px}
+  .points svg{flex-shrink:0;margin-top:4px}
+  .signup{background:var(--card);border-radius:14px;padding:28px;box-shadow:0 12px 40px rgba(0,0,0,.28);color:var(--body)}
+  .signup h2{font-size:26px;margin-bottom:6px}
+  .signup .sub{color:var(--muted);font-size:16px;margin-bottom:18px}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-weight:700;font-size:14.5px;color:var(--ink);margin-bottom:6px}
+  .field input[type=text],.field input[type=email],.field select{width:100%;font:inherit;font-size:17px;padding:12px 14px;border:1.5px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+  .field input:focus,.field select:focus{border-color:var(--spruce);outline:none;box-shadow:0 0 0 3px rgba(47,107,94,.18)}
+  .btn{width:100%;font:inherit;font-weight:700;font-size:18px;padding:14px;border:0;border-radius:8px;background:var(--dory);color:var(--deep);cursor:pointer}
+  .btn:hover{background:var(--dory-deep)}
+  .btn:disabled{opacity:.6;cursor:default}
+  .fine{font-size:13.5px;color:var(--muted);margin-top:12px;line-height:1.5}
+  .success{display:none;text-align:center;padding:12px 0}
+  .success .tick{width:56px;height:56px;border-radius:50%;background:var(--spruce);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+  .success h3{font-size:24px;margin-bottom:8px}
+  .success .next{margin-top:18px;padding-top:18px;border-top:1px solid var(--line);text-align:left}
+  .success .next h4{font-family:'Bricolage Grotesque',sans-serif;font-size:20px;color:var(--ink);margin-bottom:6px}
+  .success .next p{font-size:16px}
+  .btn-link{display:block;text-align:center;text-decoration:none;margin-top:14px}
+  section{padding:56px 0}
+  section h2{font-size:clamp(26px,3vw,34px);margin-bottom:22px}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .step{background:var(--card);border-radius:12px;padding:22px;border:1px solid var(--line)}
+  .step .n{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:30px;color:var(--dory-deep);margin-bottom:6px}
+  .step h3{font-size:20px;margin-bottom:8px}
+  .step p{font-size:16.5px}
+  .who{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .who ul{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .who li{background:var(--fog);border-radius:12px;padding:20px;font-size:17px}
+  .who li strong{display:block;color:var(--ink);margin-bottom:4px}
+  .notice{background:#FFF6E3;border:1px solid #F0D9A4;border-radius:12px;padding:18px 22px;font-size:16.5px;color:var(--ink)}
+  .faq details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:10px}
+  .faq summary{cursor:pointer;font-weight:700;color:var(--ink);font-size:17.5px}
+  .faq p{margin-top:8px;font-size:16.5px}
+  footer{background:var(--deep);color:#9DB0B8;padding:34px 0;font-size:14px;text-align:center}
+  footer a{color:#9DB0B8}
+  @media (max-width:820px){.hero-grid{grid-template-columns:1fr}.steps,.who ul{grid-template-columns:1fr}.hero{padding:32px 0 52px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="/" aria-label="Kedge Health home">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v14M12 3l-2.2 2.2M12 3l2.2 2.2M5 13c0 4.5 3.1 7 7 7s7-2.5 7-7M5 13l-2 2.4M5 13l2.6 1.4M19 13l2 2.4M19 13l-2.6 1.4" stroke="#D99A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Kedge<em>&nbsp;Health</em></span>
+    </a>
+    <span class="nav-note">Newfoundland and Labrador</span>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">For adults without a family doctor</p>
+        <h1>No family doctor? <span class="accent">Get caught up</span> on the check-ups you've been missing.</h1>
+        <p class="lede">Waiting on Patient Connect? Find out exactly which health checks you're due for, and have a doctor or nurse practitioner order them for you.</p>
+        <ul class="points">
+          <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11" stroke="#D99A2B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Mammogram, FIT kit, pap test, bloodwork, blood pressure, vaccines: one visit tells you what's due at your age.</span></li>
+          <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11" stroke="#D99A2B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>A licensed doctor or nurse practitioner reviews everything and sends the requisitions. You don't chase referrals.</span></li>
+          <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11" stroke="#D99A2B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>We follow each test to a result and tell you what it means. Built in Newfoundland and Labrador by a local physician.</span></li>
+        </ul>
+      </div>
+
+      <div class="signup" id="register">
+        <form id="interest-form" novalidate>
+          <h2>Be first to access Kedge</h2>
+          <p class="sub">We're opening across Newfoundland and Labrador in stages. The first appointments go to people on this list. Register in thirty seconds.</p>
+          <div class="field">
+            <label for="name">First name</label>
+            <input type="text" id="name" name="name" autocomplete="given-name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="situation">Which is closest to your situation?</label>
+            <select id="situation" name="situation" required>
+              <option value="">Choose one</option>
+              <option value="no-doctor-patient-connect">No family doctor, I'm on Patient Connect</option>
+              <option value="no-doctor-not-registered">No family doctor, not on Patient Connect</option>
+              <option value="doctor-cant-get-in">I have a doctor but can't get in</option>
+              <option value="other">Something else</option>
+            </select>
+          </div>
+          <button class="btn" type="submit">Get early access</button>
+          <p class="error" id="interest-error" style="display:none;color:#b00020;font-size:13.5px;margin-top:10px">Something went wrong sending that. Please try again, or email hello@kedgehealth.com.</p>
+          <p class="fine">Free to register. No health information is collected here; this list is kept separate from any clinical system. We'll email you about Kedge in Newfoundland and Labrador and nothing else. Unsubscribe any time. <a href="/privacy.html">Privacy policy</a>.</p>
+        </form>
+        <div class="success" id="interest-success">
+          <div class="tick"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>You're on the list.</h3>
+          <p>We'll email you when you can book, and what to expect. Nothing else to do for now.</p>
+          <div class="next">
+            <h4>Want to go first?</h4>
+            <p>Answer eight quick questions about getting care without a family doctor (about three minutes, no health information) and tell us if we can call you. People who help us design this get the first appointments when we open.</p>
+            <a class="btn btn-link" id="survey-link" href="/survey.html">Answer the questions</a>
+            <p class="fine" style="margin-top:10px">Or skip it. You're registered either way.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <h2>How it works</h2>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><h3>Answer a few questions</h3><p>About ten minutes, on a kiosk or your own phone: your age, history, and what you've already had done. No account needed.</p></div>
+        <div class="step"><div class="n">2</div><h3>See what you're due for</h3><p>Based on Canadian and NL screening guidelines, you get a plain list: what's due now, what isn't, and why. A doctor or nurse practitioner reviews it with you and sends the requisitions.</p></div>
+        <div class="step"><div class="n">3</div><h3>Get it done, and know the result</h3><p>Where to go for each test, reminders if it slips, and a plain-language explanation of the result when it comes back. If something needs a follow-up, we make sure it isn't missed.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="who">
+    <div class="wrap">
+      <h2>Is this for me?</h2>
+      <ul>
+        <li><strong>You're on Patient Connect.</strong> You've registered and you're waiting. The check-ups don't have to wait with you. Yes, this is built for you.</li>
+        <li><strong>You lost your doctor.</strong> They retired, moved or closed the practice, and nobody has taken you on. Yes.</li>
+        <li><strong>You've never had one.</strong> You moved here, or you've just never been attached as an adult, and you're not sure what you're due for. Yes.</li>
+      </ul>
+      <div class="notice" style="margin-top:22px"><strong>Kedge is not a walk-in clinic.</strong> If you're unwell today, call 811, go to a walk-in or urgent care, or in an emergency call 911. Kedge is for the routine checks that keep getting put off when there's no one to order them, wherever in the province you live.</div>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="wrap">
+      <h2>Questions people ask</h2>
+      <details><summary>Can I get a mammogram, a FIT kit or a pap test without a family doctor?</summary><p>Breast screening is the exception: in Newfoundland and Labrador you can book a screening mammogram yourself if you're in the eligible age range. A FIT kit, a pap test, bloodwork and most other checks still need a requisition from a doctor or nurse practitioner. That's the part Kedge does: a licensed clinician reviews what you're due for and sends the requisitions, so you can book the tests.</p></details>
+        <details><summary>What does it cost?</summary><p>Registering is free and doesn't commit you to anything. We're still working out the best way to bring this to people in Newfoundland and Labrador, and we'll set out plainly how it works before you book a visit, so there are no surprises.</p></details>
+        <details><summary>Will I be taken off Patient Connect?</summary><p>No. Kedge doesn't replace a family doctor and doesn't affect your place on the list. When you're attached, we hand your screening record to your new provider.</p></details>
+        <details><summary>Who's behind this?</summary><p>Kedge Health Limited is a Newfoundland and Labrador company founded by a local physician. Your information stays in Canada and is protected under NL health privacy law.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><a href="/privacy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="/">kedgehealth.com</a></p>
+    <p style="margin-top:6px">© 2026 Kedge Health · PO Box 29101 Torbay Rd RPO, St. John's, NL A1A 5B5</p>
+    <p style="margin-top:6px">Kedge provides information and navigation support, not medical diagnosis.</p>
+  </div>
+</footer>
+
+<script>
+  // Same backend as the main waitlist (Google Apps Script → Kedge Waitlist sheet).
+  // Attribution: the 'source' column carries the page, the situation answer, and any
+  // utm_source / utm_campaign on the URL, so ad sign-ups can be counted in the sheet.
+  var WAITLIST_ENDPOINT = "https://script.google.com/macros/s/AKfycbx9dntdBE0G10msqszvIVwmW44e76snMUqjNWYn7mNa3RarGjIzAGlcwiWBEeiH0rzY/exec";
+
+  var qs = new URLSearchParams(location.search);
+  var utm = ['utm_source','utm_campaign','utm_term'].map(function(k){ return qs.get(k) ? k.replace('utm_','') + '=' + qs.get(k) : ''; }).filter(Boolean).join(';');
+
+  document.getElementById('interest-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var form = this, name = document.getElementById('name'), email = document.getElementById('email'),
+        situation = document.getElementById('situation'), errorEl = document.getElementById('interest-error'),
+        btn = form.querySelector('button[type=submit]');
+    errorEl.style.display = 'none';
+    if(!name.value.trim() || !email.value.trim() || !email.checkValidity() || !situation.value){
+      email.reportValidity(); name.reportValidity(); situation.reportValidity(); return;
+    }
+    function showSuccess(){
+      try { sessionStorage.setItem('kedge_reg', JSON.stringify({ name: name.value.trim(), email: email.value.trim(), situation: situation.value, utm: utm })); } catch (_) {}
+      form.style.display='none'; document.getElementById('interest-success').style.display='block';
+      document.getElementById('interest-success').scrollIntoView({ behavior:'smooth', block:'center' });
+    }
+    btn.disabled = true; btn.textContent = 'Sending…';
+    var payload = new URLSearchParams({
+      name: name.value.trim(),
+      email: email.value.trim(),
+      source: 'catch-up;' + situation.value + (utm ? ';' + utm : ''),
+      newsletter: 'no',
+      ts: new Date().toISOString()
+    });
+    fetch(WAITLIST_ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body: payload.toString() })
+      .then(function(){ showSuccess(); })
+      .catch(function(){ btn.disabled=false; btn.textContent='Get early access'; errorEl.style.display='block'; });
+  });
+</script>
+</body>
+</html>
