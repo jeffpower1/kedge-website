@@ -187,8 +187,10 @@
   var qs = new URLSearchParams(location.search);
   var utm = ['utm_source','utm_campaign','utm_term'].map(function(k){ return qs.get(k) ? k.replace('utm_','') + '=' + qs.get(k) : ''; }).filter(Boolean).join(';');
 
+  var submitting = false;
   document.getElementById('interest-form').addEventListener('submit', function(e){
     e.preventDefault();
+    if (submitting) return;
     var form = this, name = document.getElementById('name'), email = document.getElementById('email'),
         situation = document.getElementById('situation'), errorEl = document.getElementById('interest-error'),
         btn = form.querySelector('button[type=submit]');
@@ -201,7 +203,7 @@
       form.style.display='none'; document.getElementById('interest-success').style.display='block';
       document.getElementById('interest-success').scrollIntoView({ behavior:'smooth', block:'center' });
     }
-    btn.disabled = true; btn.textContent = 'Sending…';
+    submitting = true; btn.disabled = true; btn.textContent = 'Sending…';
     var payload = new URLSearchParams({
       name: name.value.trim(),
       email: email.value.trim(),
@@ -211,7 +213,7 @@
     });
     fetch(WAITLIST_ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body: payload.toString() })
       .then(function(){ showSuccess(); })
-      .catch(function(){ btn.disabled=false; btn.textContent='Get early access'; errorEl.style.display='block'; });
+      .catch(function(){ submitting = false; btn.disabled=false; btn.textContent='Get early access'; errorEl.style.display='block'; });
   });
 </script>
 </body>
