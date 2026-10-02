@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18472294424"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18472294424');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eight quick questions. Kedge Health, Newfoundland and Labrador</title>
@@ -346,7 +354,7 @@
       ts: new Date().toISOString()
     });
     fetch(WAITLIST_ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body: payload.toString() })
-      .then(function(){ form.style.display = 'none'; var s = document.getElementById('survey-success'); s.style.display = 'block'; s.scrollIntoView({behavior:'smooth', block:'center'}); try { sessionStorage.removeItem('kedge_reg'); } catch (_) {} })
+      .then(function(){ try { if (typeof gtag === 'function') gtag('event', 'conversion', { 'send_to': 'AW-18472294424/n9LxCPmumY4dEJiwo-hE', 'value': 1.0, 'currency': 'CAD' }); } catch (_) {} form.style.display = 'none'; var s = document.getElementById('survey-success'); s.style.display = 'block'; s.scrollIntoView({behavior:'smooth', block:'center'}); try { sessionStorage.removeItem('kedge_reg'); } catch (_) {} })
       .catch(function(){ btn.disabled = false; btn.textContent = 'Send my answers'; errorEl.style.display = 'block'; });
   });
 </script>

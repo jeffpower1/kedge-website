@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18472294424"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18472294424');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>No family doctor? Get caught up on your check-ups. Kedge Health, Newfoundland and Labrador</title>
@@ -212,7 +220,7 @@
       ts: new Date().toISOString()
     });
     fetch(WAITLIST_ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body: payload.toString() })
-      .then(function(){ showSuccess(); })
+      .then(function(){ try { if (typeof gtag === 'function') gtag('event', 'conversion', { 'send_to': 'AW-18472294424/n9LxCPmumY4dEJiwo-hE', 'value': 1.0, 'currency': 'CAD' }); } catch (_) {} showSuccess(); })
       .catch(function(){ submitting = false; btn.disabled=false; btn.textContent='Get early access'; errorEl.style.display='block'; });
   });
 </script>
