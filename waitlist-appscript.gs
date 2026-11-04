@@ -123,11 +123,12 @@ function sendThankYou(email, name) {
   var body =
     (first ? "Hi " + first + ",\n\n" : "Hi,\n\n") +
     "Thanks for registering with Kedge Health.\n\n" +
-    "Here's what happens next. We're opening across Newfoundland and Labrador in stages, " +
-    "and the first appointments go to people on this list. We'll email you when you can book, and not before. " +
+    "Kedge isn't open to patients yet. We're finishing our validation work and setting up " +
+    "a first pilot in Newfoundland and Labrador with partners. When there's a way for you to use it, " +
+    "you'll hear from us first. " +
     "If you told us we could call, the physician behind Kedge will be in touch in the next few weeks.\n\n" +
     "Nothing else to do for now.\n\n" +
-    "One thing to say plainly: Kedge is for the routine check-ups that get put off when there's no one to order them. " +
+    "One thing to say plainly: Kedge is for the routine screening that gets put off when there's no one to order it. " +
     "If you're unwell today, call 811, or 911 in an emergency.\n\n" +
     "Kedge Health Limited\n" +
     "PO Box 29101 Torbay Rd RPO, St. John's, NL A1A 5B5\n" +
